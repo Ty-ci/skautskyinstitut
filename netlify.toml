@@ -1,0 +1,5 @@
+# Next.js runtime (OpenNext adapter) is detected and installed by Netlify automatically.
+# Node version is taken from .nvmrc.
+[build]
+  command = "yarn build:netlify"
+  publish = ".next"

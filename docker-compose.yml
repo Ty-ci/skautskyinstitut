@@ -1,0 +1,17 @@
+# Optional local Postgres for development (alternative to a Neon dev branch).
+# DATABASE_URI=postgresql://postgres:postgres@127.0.0.1:5432/skautskyinstitut
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: skautskyinstitut
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

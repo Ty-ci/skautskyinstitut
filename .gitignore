@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
+
+# VS Code workspace
+*.code-workspace
 
 # testing
 /coverage
@@ -28,9 +32,15 @@ yarn-error.log*
 .env*.local
 .env
 
+# netlify
+.netlify
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# payload local uploads (used when R2 is not configured)
+/media
