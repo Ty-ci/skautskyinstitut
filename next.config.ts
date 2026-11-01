@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         pathname: '/api/media/file/**',
       },
     ],
+    // TODO: Temporary – the homepage and mock events reuse images from the current WordPress site
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.skautskyinstitut.sk',
+        pathname: '/wp-content/uploads/**',
+      },
+    ],
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {

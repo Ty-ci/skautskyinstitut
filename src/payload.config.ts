@@ -1,11 +1,13 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { sk } from '@payloadcms/translations/languages/sk'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Events } from './collections/Events/Events'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
 
@@ -18,9 +20,17 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    dateFormat: 'd. M. yyyy HH:mm',
+    meta: {
+      titleSuffix: ' – Skautský inštitút',
+    },
+  },
+  i18n: {
+    supportedLanguages: { sk },
+    fallbackLanguage: 'sk',
   },
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
-  collections: [Users, Media],
+  collections: [Events, Media, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

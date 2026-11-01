@@ -9090,6 +9090,7 @@ __metadata:
     "@payloadcms/next": "npm:3.90.2"
     "@payloadcms/richtext-lexical": "npm:3.90.2"
     "@payloadcms/storage-s3": "npm:3.90.2"
+    "@payloadcms/translations": "npm:3.90.2"
     "@payloadcms/ui": "npm:3.90.2"
     "@tailwindcss/postcss": "npm:^4.3.3"
     "@types/node": "npm:22.19.9"

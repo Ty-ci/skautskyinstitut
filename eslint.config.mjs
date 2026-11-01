@@ -24,6 +24,11 @@ export default [
     rules: {
       'no-multi-spaces': 'error',
       'i18next/no-literal-string': 'off',
+      // Next.js defaults from @bratislava/eslint-config-next + Payload's `_status` (drafts)
+      'no-underscore-dangle': [
+        'error',
+        { allow: ['__NEXT_DATA__', '__NEXT_LOADED_PAGES__', '__typename', '_status'] },
+      ],
     },
   },
 ]

@@ -1,7 +1,16 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
+import { Georama } from 'next/font/google'
 import type { ReactNode } from 'react'
+
+import SiteFooter from '@/components/SiteFooter'
+import SiteHeader from '@/components/SiteHeader'
+
+const georama = Georama({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-georama',
+})
 
 export const metadata: Metadata = {
   title: 'Skautský inštitút',
@@ -10,9 +19,11 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="sk">
-      <body>
-        <main className="mx-auto max-w-4xl px-4 py-8">{children}</main>
+    <html lang="sk" className={georama.variable}>
+      <body className="flex min-h-screen flex-col">
+        <SiteHeader />
+        <main className="grow">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   )

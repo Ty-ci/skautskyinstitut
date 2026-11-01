@@ -1,1 +1,58 @@
 @import 'tailwindcss';
+
+/* TODO: Temporary – self-host the Slovenský skauting brand font instead of loading it from the old site */
+@font-face {
+  font-family: 'Skaut-Bold';
+  font-display: swap;
+  src: url('https://www.skautskyinstitut.sk/wp-content/uploads/et-fonts/skaut-bold-webfont.otf')
+    format('opentype');
+}
+
+/* Brand tokens taken over from https://www.skautskyinstitut.sk/ */
+@theme inline {
+  --font-sans: var(--font-georama), Helvetica, Arial, sans-serif;
+  --font-display: 'Skaut-Bold', Helvetica, Arial, sans-serif;
+
+  --color-brand: #ffcd00;
+  --color-brand-dark: #f2a900;
+  --color-ink: #3d3d3d;
+  --color-muted: #606060;
+  --color-surface: #f7f7f7;
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+/* Tailwind's preflight resets these, so rich text from the CMS needs basic styles back */
+@utility rich-text {
+  @apply flex flex-col gap-4;
+
+  & h2 {
+    @apply text-2xl font-semibold;
+  }
+  & h3 {
+    @apply text-xl font-semibold;
+  }
+  & ul {
+    @apply list-disc pl-6;
+  }
+  & ol {
+    @apply list-decimal pl-6;
+  }
+  & a {
+    @apply underline;
+  }
+  & blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic;
+  }
+}
