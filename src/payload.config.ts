@@ -14,6 +14,21 @@ import { Users } from './collections/Users'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Fail fast with one clear message instead of Payload's secret error followed by an opaque
+// Postgres connection error (e.g. on Netlify, where the variables must be set in site settings)
+const requiredEnv = {
+  PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
+  DATABASE_URI: process.env.DATABASE_URI,
+}
+const missingEnv = Object.entries(requiredEnv)
+  .filter(([, value]) => !value)
+  .map(([name]) => name)
+if (missingEnv.length > 0) {
+  throw new Error(
+    `Missing environment variables: ${missingEnv.join(', ')}. See .env.example for the full list.`,
+  )
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
