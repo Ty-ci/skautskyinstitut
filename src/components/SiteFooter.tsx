@@ -10,7 +10,7 @@ const SiteFooter = () => {
       <div className="mx-auto flex max-w-[1280px] justify-center px-[120px] py-6 max-[980px]:px-8 max-[980px]:py-2 max-[767px]:px-4">
         <div className="w-4/5 overflow-hidden rounded-2xl bg-white p-6 text-[18px] leading-[1.7] font-medium text-ink shadow-[0_12px_18px_-6px_rgba(0,0,0,0.3)] max-[980px]:w-full">
           <div className="mx-auto mb-[2.75%] w-64 opacity-75 max-[980px]:w-[172px]">
-            {/* eslint-disable-next-line @next/next/no-img-element -- mirrors the original markup */}
+            {}
             <img
               src={wpUploads('2025/03/SLSK-logo-zaklad-horizontal.svg')}
               alt="Slovenský skauting"
@@ -29,7 +29,7 @@ const SiteFooter = () => {
             <a
               href={externalLinks.skautskyInstitutCz}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="font-semibold text-brand-dark"
             >
               www.skautskyinstitut.cz

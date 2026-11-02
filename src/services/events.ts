@@ -40,7 +40,7 @@ export interface SiteEvent {
   endsAt: string
   place?: string
   coverUrl?: string
-  /** Plain text, paragraphs separated by blank lines */
+  /** Simple Markdown, see `@/utils/markdown` */
   description?: string
   facebookLink?: string
   instagramLink?: string
@@ -264,7 +264,7 @@ const parseEvents = (rows: Rows) => {
 }
 
 /** All events in the sheet, soonest first. Deduplicated within one render via React's `cache`. */
-const getAllEvents = cache(async () => {
+export const getEvents = cache(async () => {
   const rows = await getValues(SPREADSHEET_ID, RANGE)
   const { events, warnings } = parseEvents(rows)
   // eslint-disable-next-line no-console -- surfaces mistakes in the sheet in the Netlify function logs
@@ -273,11 +273,13 @@ const getAllEvents = cache(async () => {
   return events.sort((a, b) => a.start.localeCompare(b.start))
 })
 
-export const isPastEvent = (event: SiteEvent) => new Date(event.endsAt) < new Date()
+export type EventStatus = 'upcoming' | 'ongoing' | 'past'
 
-/** Started already – for an upcoming event, that means under way */
-export const hasEventStarted = (event: SiteEvent) => new Date(event.start) <= new Date()
+export const getEventStatus = (event: SiteEvent): EventStatus => {
+  const now = new Date()
+  if (new Date(event.endsAt) < now) {
+    return 'past'
+  }
 
-/** Events that haven't ended yet, soonest first */
-export const getUpcomingEvents = async () =>
-  (await getAllEvents()).filter((event) => !isPastEvent(event))
+  return new Date(event.start) <= now ? 'ongoing' : 'upcoming'
+}

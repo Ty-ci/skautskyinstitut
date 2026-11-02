@@ -16,13 +16,13 @@ const SiteHeader = () => {
       <div className="hidden bg-white min-[981px]:block">
         <div className="mx-auto max-w-[1280px] px-32">
           <div className="min-h-16">
-            <div className="-mb-8 pt-[21px]">
+            <div className="-mb-8 py-[21px]">
               <div className="relative">
                 <div className="absolute top-1/2 left-3 size-15 -translate-y-1/2 overflow-hidden">
                   <SiteLogo className="block size-15" />
                 </div>
-                <nav className="flex justify-center">
-                  <ul className="-mx-[11px] flex flex-wrap justify-center leading-[30.6px]">
+                <nav className="flex justify-end">
+                  <ul className="mx-[-11px] flex flex-wrap justify-center leading-[30.6px]">
                     {menuItems.map((item) => (
                       <li key={item.label} className="flex px-[11px]">
                         <MenuLink

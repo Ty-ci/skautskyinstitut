@@ -5,18 +5,19 @@ import { useEffect, useId, useRef } from 'react'
 
 import EventActions from '@/components/EventActions'
 import EventBadges from '@/components/EventBadges'
-import type { SiteEvent } from '@/services/events'
+import Markdown from '@/components/Markdown'
+import type { EventStatus, SiteEvent } from '@/services/events'
 
 interface Props {
   /** The event to show; the dialog is closed without one */
   event: SiteEvent | undefined
-  isOngoing: boolean
+  status: EventStatus
   /** Called whenever the dialog closes: close button, Escape or a click on the backdrop */
   onClose: () => void
 }
 
 /** All there is to an event, in a modal over the homepage */
-const EventDialog = ({ event, isOngoing, onClose }: Props) => {
+const EventDialog = ({ event, status, onClose }: Props) => {
   const titleId = useId()
   const dialogRef = useRef<HTMLDialogElement>(null)
 
@@ -29,12 +30,6 @@ const EventDialog = ({ event, isOngoing, onClose }: Props) => {
       dialog.close()
     }
   }, [event])
-
-  const paragraphs = (event?.description ?? '')
-    .split(/\n\s*\n/)
-    // eslint-disable-next-line sonarjs/null-dereference -- false positive, `split` returns strings
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean)
 
   return (
     // Escape is handled by the dialog itself; the click only adds closing by the backdrop
@@ -52,56 +47,47 @@ const EventDialog = ({ event, isOngoing, onClose }: Props) => {
       className="m-auto w-[calc(100%-2rem)] max-w-2xl overflow-hidden rounded-2xl bg-white p-0 text-ink shadow-[0_24px_48px_-12px_rgba(0,0,0,0.5)] backdrop:bg-black/60"
     >
       {event ? (
-        <>
-          <button
-            type="button"
-            onClick={() => dialogRef.current?.close()}
-            aria-label="Zavrieť"
-            className="absolute top-3 right-3 z-10 flex size-9 cursor-pointer items-center justify-center rounded-full bg-white/90 shadow-md transition-colors hover:bg-brand"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              aria-hidden
-              className="size-5"
+        // Scrolls inside, so the backdrop stays put
+        <article className="max-h-[calc(100dvh-2rem)] overflow-y-auto">
+          {/* Sticks to the top of the scrolled content: stays in view, but clear of the scrollbar */}
+          <div className="sticky top-0 z-10 h-0">
+            <button
+              type="button"
+              onClick={() => dialogRef.current?.close()}
+              aria-label="Zavrieť"
+              className="absolute top-3 right-3 flex size-9 cursor-pointer items-center justify-center rounded-full text-white/90 shadow-md transition-colors hover:bg-white/20"
             >
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
-          </button>
-          {/* Scrolls inside, so the close button stays in view */}
-          <article className="max-h-[calc(100dvh-2rem)] overflow-y-auto">
-            {event.coverUrl ? (
-              <div className="relative aspect-video">
-                {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
-                <Image src={event.coverUrl} alt="" fill unoptimized className="object-cover" />
-              </div>
-            ) : null}
-            <div className="flex flex-col items-start gap-4 p-5 sm:p-6">
-              <EventBadges event={event} isOngoing={isOngoing} />
-              <header className="flex flex-col gap-1 pr-10">
-                <h2 id={titleId} className="text-3xl/tight">
-                  {event.title}
-                </h2>
-                {event.place ? <p className="text-muted">{event.place}</p> : null}
-              </header>
-              <EventActions event={event} />
-              {paragraphs.length > 0 ? (
-                <div className="rich-text">
-                  {paragraphs.map((paragraph, index) => (
-                    // Paragraphs have no identity beyond their position
-                    // eslint-disable-next-line react/no-array-index-key
-                    <p key={index} className="whitespace-pre-line">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.5}
+                strokeLinecap="round"
+                aria-hidden
+                className="size-5"
+              >
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+          {event.coverUrl ? (
+            <div className="relative aspect-video">
+              {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
+              <Image src={event.coverUrl} alt="" fill unoptimized className="object-cover" />
             </div>
-          </article>
-        </>
+          ) : null}
+          <div className="flex flex-col items-start gap-4 p-5 sm:p-6">
+            <EventBadges event={event} status={status} />
+            <header className="flex flex-col gap-1 pr-10">
+              <h2 id={titleId} className="text-3xl/tight">
+                {event.title}
+              </h2>
+              {event.place ? <p className="text-muted">{event.place}</p> : null}
+            </header>
+            <EventActions event={event} isPast={status === 'past'} />
+            {event.description ? <Markdown source={event.description} /> : null}
+          </div>
+        </article>
       ) : null}
     </dialog>
   )

@@ -5,12 +5,13 @@ import { useRef, useSyncExternalStore } from 'react'
 import EventCard from '@/components/EventCard'
 import EventDialog from '@/components/EventDialog'
 import SheetLink from '@/components/SheetLink'
-import type { SiteEvent } from '@/services/events'
+import type { EventStatus, SiteEvent } from '@/services/events'
 
 interface Props {
+  /** Soonest first */
   events: SiteEvent[]
-  /** Events already under way */
-  ongoingSlugs: string[]
+  /** Status of each event, by slug */
+  statuses: Record<string, EventStatus>
   sheetUrl: string
 }
 
@@ -28,11 +29,33 @@ const getServerHash = () => ''
  * The grid of event tiles, and the dialog of the one that's open. The open event is the URL hash
  * (see `eventPath`), so it can be linked to and the back button closes it.
  */
-const EventsBoard = ({ events, ongoingSlugs, sheetUrl }: Props) => {
+const EventsBoard = ({ events, statuses, sheetUrl }: Props) => {
   const hash = useSyncExternalStore(subscribeToHash, getHash, getServerHash)
   const openEvent = events.find((event) => `#${event.slug}` === hash)
   // Opened by a click here, so there's a history entry to go back from
   const isOpenedHere = useRef(false)
+
+  const statusOf = (event: SiteEvent) => statuses[event.slug] ?? 'upcoming'
+  // Both lists the latest first
+  const latestFirst = [...events].reverse()
+  const upcomingEvents = latestFirst.filter((event) => statusOf(event) !== 'past')
+  const pastEvents = latestFirst.filter((event) => statusOf(event) === 'past')
+
+  const renderGrid = (gridEvents: SiteEvent[]) => (
+    <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {gridEvents.map((event) => (
+        <li key={event.slug}>
+          <EventCard
+            event={event}
+            status={statusOf(event)}
+            onOpen={() => {
+              isOpenedHere.current = true
+            }}
+          />
+        </li>
+      ))}
+    </ul>
+  )
 
   const closeEvent = () => {
     // Gone from the hash already: closed by the back button
@@ -52,29 +75,21 @@ const EventsBoard = ({ events, ongoingSlugs, sheetUrl }: Props) => {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-      {events.length > 0 ? (
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => (
-            <li key={event.slug}>
-              <EventCard
-                event={event}
-                isOngoing={ongoingSlugs.includes(event.slug)}
-                onOpen={() => {
-                  isOpenedHere.current = true
-                }}
-              />
-            </li>
-          ))}
-        </ul>
+      <SheetLink href={sheetUrl} className="self-end" />
+      {upcomingEvents.length > 0 ? (
+        renderGrid(upcomingEvents)
       ) : (
         <p className="text-center text-lg">Momentálne nie sú naplánované žiadne podujatia.</p>
       )}
-      <SheetLink href={sheetUrl} className="self-end">
-        Data
-      </SheetLink>
+      {pastEvents.length > 0 ? (
+        <section className="flex flex-col gap-6 pt-8">
+          <h2 className="text-center text-3xl">Uplynulé podujatia</h2>
+          {renderGrid(pastEvents)}
+        </section>
+      ) : null}
       <EventDialog
         event={openEvent}
-        isOngoing={openEvent ? ongoingSlugs.includes(openEvent.slug) : false}
+        status={openEvent ? statusOf(openEvent) : 'upcoming'}
         onClose={closeEvent}
       />
     </div>

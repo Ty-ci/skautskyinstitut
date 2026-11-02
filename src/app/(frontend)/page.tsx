@@ -1,12 +1,12 @@
 import EventsFeedSection from '@/components/home/EventsFeedSection'
-import { getUpcomingEvents } from '@/services/events'
+import { getEvents } from '@/services/events'
 
 // Events come from a Google spreadsheet, which can't notify the site about edits, so the page is
-// regenerated at most every 5 minutes. That also drops events that have ended in the meantime.
+// regenerated at most every 5 minutes. That also moves events that have ended among the past ones.
 export const revalidate = 300
 
 const HomePage = async () => {
-  const events = await getUpcomingEvents()
+  const events = await getEvents()
 
   return <EventsFeedSection events={events} />
 }
