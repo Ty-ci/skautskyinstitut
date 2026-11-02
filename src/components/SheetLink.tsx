@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 interface Props {
   href: string
-  children: ReactNode
+  children?: ReactNode
   className?: string
 }
 

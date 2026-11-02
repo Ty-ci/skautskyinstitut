@@ -69,9 +69,7 @@ const EventsBoard = ({ events, ongoingSlugs, sheetUrl }: Props) => {
       ) : (
         <p className="text-center text-lg">Momentálne nie sú naplánované žiadne podujatia.</p>
       )}
-      <SheetLink href={sheetUrl} className="self-start">
-        Zdrojová tabuľka
-      </SheetLink>
+      <SheetLink href={sheetUrl} className="self-start" />
       <EventDialog
         event={openEvent}
         isOngoing={openEvent ? ongoingSlugs.includes(openEvent.slug) : false}
