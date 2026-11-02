@@ -12,7 +12,7 @@ const SheetLink = ({ href, children, className = '' }: Props) => (
     href={href}
     target="_blank"
     rel="noreferrer"
-    className={`inline-flex items-center gap-1.5 text-sm text-muted underline decoration-black/15 decoration-2 underline-offset-4 transition-colors hover:text-ink hover:decoration-brand ${className}`}
+    className={`inline-flex items-center gap-1.5 text-sm text-muted/30 underline decoration-black/15 decoration-2 underline-offset-4 transition-colors hover:text-ink hover:decoration-brand ${className}`}
   >
     {children}
     <svg

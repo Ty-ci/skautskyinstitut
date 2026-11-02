@@ -2,7 +2,6 @@ export const externalLinks = {
   // The main site – this events site is one patch of it, so header and footer mirror its design
   skautskyInstitut: 'https://www.skautskyinstitut.sk/',
   facebook: 'https://www.facebook.com/sinaslovensku/',
-  facebookEvents: 'https://www.facebook.com/sinaslovensku/events',
   instagram: 'https://www.instagram.com/sinaslovensku/',
   spotify: 'https://open.spotify.com/show/0qcho8sGWAt5ZzFc13pfZa',
   skauting: 'https://www.skauting.sk',

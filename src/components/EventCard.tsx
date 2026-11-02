@@ -15,7 +15,7 @@ const EventCard = ({ event, isOngoing, onOpen }: Props) => (
   <a
     href={`#${event.slug}`}
     onClick={onOpen}
-    className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_12px_18px_-6px_rgba(0,0,0,0.3)] transition-transform hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand-dark"
+    className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_12px_18px_-6px_rgba(0,0,0,0.3)] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand-dark"
   >
     {event.coverUrl ? (
       <div className="relative aspect-video shrink-0">
@@ -25,17 +25,18 @@ const EventCard = ({ event, isOngoing, onOpen }: Props) => (
     ) : null}
     <div className="flex grow flex-col items-start gap-2 p-4">
       <EventBadges event={event} isOngoing={isOngoing} />
-      <div className="flex flex-col gap-0.5">
-        <h3 className="text-xl/tight transition-colors group-hover:text-brand-dark">
-          {event.title}
-        </h3>
-        {event.place ? <p className="text-sm text-muted">{event.place}</p> : null}
+      <div className="flex h-full flex-col justify-between">
+        <h3 className="text-xl/tight group-hover:underline">{event.title}</h3>
+
+        <div className="flex flex-col gap-1">
+          {event.description ? (
+            <p className="line-clamp-3 text-sm whitespace-pre-line text-muted">
+              {event.description}
+            </p>
+          ) : null}
+          {event.place ? <p className="text-sm text-muted italic">{event.place}</p> : null}
+        </div>
       </div>
-      {event.description ? (
-        <p className="line-clamp-3 text-sm text-muted">
-          {event.description.replaceAll(/\s+/g, ' ')}
-        </p>
-      ) : null}
     </div>
   </a>
 )

@@ -53,7 +53,7 @@ const EventsBoard = ({ events, ongoingSlugs, sheetUrl }: Props) => {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
       {events.length > 0 ? (
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {events.map((event) => (
             <li key={event.slug}>
               <EventCard
@@ -69,7 +69,9 @@ const EventsBoard = ({ events, ongoingSlugs, sheetUrl }: Props) => {
       ) : (
         <p className="text-center text-lg">Momentálne nie sú naplánované žiadne podujatia.</p>
       )}
-      <SheetLink href={sheetUrl} className="self-start" />
+      <SheetLink href={sheetUrl} className="self-end">
+        Data
+      </SheetLink>
       <EventDialog
         event={openEvent}
         isOngoing={openEvent ? ongoingSlugs.includes(openEvent.slug) : false}

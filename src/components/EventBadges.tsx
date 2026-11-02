@@ -9,11 +9,11 @@ interface Props {
 /** The event's date, and whether it's under way */
 const EventBadges = ({ event, isOngoing }: Props) => (
   <div className="flex flex-wrap items-center gap-1.5">
-    <p className="rounded-full bg-brand px-2.5 py-0.5 text-xs font-semibold">
+    <p className="rounded-l-md rounded-r-full bg-brand px-2.5 py-0.5 text-xs font-semibold">
       {formatEventDate(event.start, event.end, event.hasTime)}
     </p>
     {isOngoing ? (
-      <p className="rounded-full bg-ink px-2.5 py-0.5 text-xs font-semibold text-white">
+      <p className="rounded-l-md rounded-r-full bg-ink px-2.5 py-0.5 text-xs font-semibold text-white">
         Práve prebieha
       </p>
     ) : null}
