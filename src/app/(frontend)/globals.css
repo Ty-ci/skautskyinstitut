@@ -24,6 +24,11 @@
   h4 {
     @apply font-display;
   }
+
+  /* The page behind an open dialog stays put */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
 }
 
 /* Section heading with a yellow marker behind its lower part, as `.text-alt-2 h1` on the main site */

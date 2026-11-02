@@ -1,5 +1,5 @@
-import EventCard from '@/components/EventCard'
-import type { SiteEvent } from '@/services/events'
+import EventsBoard from '@/components/home/EventsBoard'
+import { eventsSheetUrl, hasEventStarted, type SiteEvent } from '@/services/events'
 import { externalLinks } from '@/utils/externalLinks'
 
 interface Props {
@@ -18,18 +18,13 @@ const EventsFeedSection = ({ events }: Props) => {
         <h1 className="heading-highlight text-5xl max-[767px]:text-4xl">Pripravované podujatia</h1>
       </section>
       <section className="grow bg-surface px-4 py-16 max-[767px]:pt-10">
-        <div className="mx-auto flex max-w-2xl flex-col gap-8">
-          {events.length > 0 ? (
-            <ul className="flex flex-col gap-8">
-              {events.map((event) => (
-                <li key={event.slug}>
-                  <EventCard event={event} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-center text-lg">Momentálne nie sú naplánované žiadne podujatia.</p>
-          )}
+        <div className="flex flex-col gap-8">
+          <EventsBoard
+            events={events}
+            // Judged here, so the browser hydrates the same labels the page was rendered with
+            ongoingSlugs={events.filter(hasEventStarted).map((event) => event.slug)}
+            sheetUrl={eventsSheetUrl}
+          />
           <a
             href={externalLinks.facebookEvents}
             target="_blank"

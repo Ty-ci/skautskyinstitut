@@ -2,7 +2,6 @@ import { revalidatePath } from 'next/cache'
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, PayloadRequest } from 'payload'
 
 import type { Event } from '@/payload-types'
-import { eventPath } from '@/utils/paths'
 
 const revalidate = (paths: Set<string>, req: PayloadRequest) => {
   for (const path of paths) {
@@ -17,8 +16,8 @@ const revalidate = (paths: Set<string>, req: PayloadRequest) => {
 }
 
 /**
- * Revalidates the events list and the event detail whenever a change can affect the public site:
- * publishing, editing a published event, unpublishing or changing the slug.
+ * Revalidates the events list (events have no pages of their own) whenever a change can affect the
+ * public site: publishing, editing a published event, unpublishing or changing the slug.
  * Saving a draft of a never-published event does nothing.
  */
 export const revalidateEventAfterChange: CollectionAfterChangeHook<Event> = ({
@@ -35,7 +34,6 @@ export const revalidateEventAfterChange: CollectionAfterChangeHook<Event> = ({
 
   if (doc._status === 'published' && doc.slug) {
     paths.add('/')
-    paths.add(eventPath(doc.slug))
   }
 
   // Unpublished, or published under a different slug before. On create, previousDoc is `{}`.
@@ -45,7 +43,6 @@ export const revalidateEventAfterChange: CollectionAfterChangeHook<Event> = ({
     (doc._status !== 'published' || previousDoc.slug !== doc.slug)
   ) {
     paths.add('/')
-    paths.add(eventPath(previousDoc.slug))
   }
 
   revalidate(paths, req)
@@ -62,12 +59,7 @@ export const revalidateEventAfterDelete: CollectionAfterDeleteHook<Event> = ({
     return doc
   }
 
-  const paths = new Set(['/'])
-  if (doc.slug) {
-    paths.add(eventPath(doc.slug))
-  }
-
-  revalidate(paths, req)
+  revalidate(new Set(['/']), req)
 
   return doc
 }

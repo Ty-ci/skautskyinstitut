@@ -21,6 +21,9 @@ const SPREADSHEET_ID =
 const RANGE = 'A1:Z500'
 const HEADER_ROW = 3
 
+/** Opens the sheet, for people who edit it – it still needs a Google account it's shared with */
+export const eventsSheetUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`
+
 const TIME_ZONE = 'Europe/Bratislava'
 const DAY_MS = 86_400_000
 
@@ -272,12 +275,9 @@ const getAllEvents = cache(async () => {
 
 export const isPastEvent = (event: SiteEvent) => new Date(event.endsAt) < new Date()
 
+/** Started already – for an upcoming event, that means under way */
+export const hasEventStarted = (event: SiteEvent) => new Date(event.start) <= new Date()
+
 /** Events that haven't ended yet, soonest first */
 export const getUpcomingEvents = async () =>
   (await getAllEvents()).filter((event) => !isPastEvent(event))
-
-/** Any event, past ones included, so shared links keep working */
-export const getEventBySlug = async (slug: string) =>
-  (await getAllEvents()).find((event) => event.slug === slug) ?? null
-
-export const getAllEventSlugs = async () => (await getAllEvents()).map((event) => event.slug)

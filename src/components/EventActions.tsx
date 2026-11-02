@@ -4,29 +4,26 @@ import { eventPath } from '@/utils/paths'
 
 interface Props {
   event: SiteEvent
-  isPast: boolean
 }
 
 const linkClassName =
   'inline-flex items-center rounded-2xl px-5 py-2.5 font-semibold transition-colors'
 
-/** Calendar and social links of an event; the calendar link is left out once the event is over */
-const EventActions = ({ event, isPast }: Props) => {
+/** Calendar and social links of an (upcoming) event */
+const EventActions = ({ event }: Props) => {
   const eventUrl = `${process.env.NEXT_PUBLIC_SERVER_URL ?? ''}${eventPath(event.slug)}`
   const links = [
-    isPast
-      ? null
-      : {
-          label: 'Pridať do kalendára',
-          href: event.calendarLink ?? googleCalendarLink(event, eventUrl),
-          primary: true,
-        },
+    {
+      label: 'Pridať do kalendára',
+      href: event.calendarLink ?? googleCalendarLink(event, eventUrl),
+      primary: true,
+    },
     event.facebookLink ? { label: 'Facebook', href: event.facebookLink, primary: false } : null,
     event.instagramLink ? { label: 'Instagram', href: event.instagramLink, primary: false } : null,
   ].filter((link) => link !== null)
 
   return (
-    <ul className="flex flex-wrap gap-3 empty:hidden">
+    <ul className="flex flex-wrap gap-3">
       {links.map(({ label, href, primary }) => (
         <li key={label}>
           <a
