@@ -5,33 +5,33 @@ Postgres on Neon, media on Cloudflare R2. See [PROJECT_BRIEF_1.md](PROJECT_BRIEF
 
 ## Local development
 
-Requirements: Node 22 (see `.nvmrc`), Yarn 4 (`corepack enable`).
+Requirements: Node 22 (see `.nvmrc`), npm. Dependencies are pinned to exact versions (`.npmrc` sets `save-exact`).
 
 1. `cp .env.example .env` and fill in the values.
    - `DATABASE_URI`: a Neon **dev** branch, or local Postgres via `docker compose up -d`
      (`postgresql://postgres:postgres@127.0.0.1:5432/skautskyinstitut`).
      Never point the local dev server at the production database.
    - Leave `S3_*` empty to store uploads locally in `./media`.
-2. `yarn install`
-3. `yarn dev` and open http://localhost:3000 (admin: http://localhost:3000/admin).
+2. `npm install`
+3. `npm run dev` and open http://localhost:3000 (admin: http://localhost:3000/admin).
 
 In dev, Payload pushes schema changes to the database automatically.
 
 ## Scripts
 
-| Script                        |                                                                      |
-| ----------------------------- | -------------------------------------------------------------------- |
-| `yarn dev`                    | dev server                                                           |
-| `yarn build`                  | production build                                                     |
-| `yarn lint` / `yarn lint:fix` | ESLint (`@bratislava/eslint-config-next`)                            |
-| `yarn typecheck`              | TypeScript check                                                     |
-| `yarn generate:types`         | regenerate `src/payload-types.ts` after changing collections         |
-| `yarn generate:importmap`     | regenerate the admin import map after adding custom admin components |
-| `yarn payload migrate:create` | create a migration after a schema change                             |
+| Script                              |                                                                      |
+| ----------------------------------- | -------------------------------------------------------------------- |
+| `npm run dev`                       | dev server                                                           |
+| `npm run build`                     | production build                                                     |
+| `npm run lint` / `npm run lint:fix` | ESLint (`@bratislava/eslint-config-next`)                            |
+| `npm run typecheck`                 | TypeScript check                                                     |
+| `npm run generate:types`            | regenerate `src/payload-types.ts` after changing collections         |
+| `npm run generate:importmap`        | regenerate the admin import map after adding custom admin components |
+| `npm run payload -- migrate:create` | create a migration after a schema change                             |
 
 ## Deployment (Netlify)
 
-Build command (`netlify.toml`): `yarn build:netlify` = `payload migrate && next build`.
+Build command (`netlify.toml`): `npm run build:netlify` = `payload migrate && next build`.
 Set all variables from `.env.example` in Netlify site settings (scopes: Builds and Functions),
 using exactly these names – e.g. the Neon connection string goes into `DATABASE_URI`.
 `PAYLOAD_SECRET` must be a production-only value, not the one from local `.env`.
