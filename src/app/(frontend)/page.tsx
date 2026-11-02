@@ -1,25 +1,14 @@
-import ContactSection from '@/components/home/ContactSection'
 import EventsFeedSection from '@/components/home/EventsFeedSection'
-import HeroSection from '@/components/home/HeroSection'
-import LocationsSection from '@/components/home/LocationsSection'
-import { mockEvents } from '@/mocks/events'
+import { getUpcomingEvents } from '@/services/events'
 
-// Content edits revalidate this page on demand. The hourly revalidation only drops events that
-// have ended in the meantime.
-export const revalidate = 3600
+// Events come from a Google spreadsheet, which can't notify the site about edits, so the page is
+// regenerated at most every 5 minutes. That also drops events that have ended in the meantime.
+export const revalidate = 300
 
-const HomePage = () => {
-  // TODO: Temporary mock data – switch back to `await getUpcomingEvents()` from '@/services/events'
-  const events = mockEvents
+const HomePage = async () => {
+  const events = await getUpcomingEvents()
 
-  return (
-    <>
-      <HeroSection />
-      <EventsFeedSection events={events} />
-      <LocationsSection />
-      <ContactSection />
-    </>
-  )
+  return <EventsFeedSection events={events} />
 }
 
 export default HomePage

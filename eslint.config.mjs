@@ -8,6 +8,7 @@ export default [
       'src/payload-types.ts',
       'src/payload-generated-schema.ts',
       'src/migrations/**',
+      '*.md',
     ],
   }),
   // https://github.com/bratislava/eslint-config/blob/master/packages/next/README.md#tailwind-css

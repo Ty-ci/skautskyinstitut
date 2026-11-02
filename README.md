@@ -32,5 +32,7 @@ In dev, Payload pushes schema changes to the database automatically.
 ## Deployment (Netlify)
 
 Build command (`netlify.toml`): `yarn build:netlify` = `payload migrate && next build`.
-Set all variables from `.env.example` in Netlify site settings.
+Set all variables from `.env.example` in Netlify site settings (scopes: Builds and Functions),
+using exactly these names – e.g. the Neon connection string goes into `DATABASE_URI`.
+`PAYLOAD_SECRET` must be a production-only value, not the one from local `.env`.
 Schema changes reach production only via migrations in `src/migrations`.

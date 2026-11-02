@@ -1,4 +1,6 @@
 export const externalLinks = {
+  // The main site – this events site is one patch of it, so header and footer mirror its design
+  skautskyInstitut: 'https://www.skautskyinstitut.sk/',
   facebook: 'https://www.facebook.com/sinaslovensku/',
   facebookEvents: 'https://www.facebook.com/sinaslovensku/events',
   instagram: 'https://www.instagram.com/sinaslovensku/',
@@ -8,6 +10,7 @@ export const externalLinks = {
 }
 
 // TODO: Temporary – move these assets into the repo or the media collection
-export const wpUploads = (path: string) => `https://www.skautskyinstitut.sk/wp-content/uploads/${path}`
+export const wpUploads = (path: string) =>
+  `https://www.skautskyinstitut.sk/wp-content/uploads/${path}`
 
 export const siLogoUrl = wpUploads('2025/02/SI-na-Slovensku-logo-150x150.png')

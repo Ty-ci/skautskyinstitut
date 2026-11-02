@@ -1,17 +1,10 @@
 @import 'tailwindcss';
 
-/* TODO: Temporary – self-host the Slovenský skauting brand font instead of loading it from the old site */
-@font-face {
-  font-family: 'Skaut-Bold';
-  font-display: swap;
-  src: url('https://www.skautskyinstitut.sk/wp-content/uploads/et-fonts/skaut-bold-webfont.otf')
-    format('opentype');
-}
-
 /* Brand tokens taken over from https://www.skautskyinstitut.sk/ */
 @theme inline {
+  /* Both fonts are loaded by next/font in the root layout */
   --font-sans: var(--font-georama), Helvetica, Arial, sans-serif;
-  --font-display: 'Skaut-Bold', Helvetica, Arial, sans-serif;
+  --font-display: var(--font-skaut-bold), Helvetica, Arial, sans-serif;
 
   --color-brand: #ffcd00;
   --color-brand-dark: #f2a900;
@@ -31,6 +24,16 @@
   h4 {
     @apply font-display;
   }
+}
+
+/* Section heading with a yellow marker behind its lower part, as `.text-alt-2 h1` on the main site */
+@utility heading-highlight {
+  display: inline;
+  padding: 4px 8px;
+  border-radius: 12px;
+  line-height: 1.5;
+  background: linear-gradient(transparent 60%, var(--color-brand) 60%);
+  box-decoration-break: clone;
 }
 
 /* Tailwind's preflight resets these, so rich text from the CMS needs basic styles back */
