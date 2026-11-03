@@ -75,7 +75,6 @@ const fromParts = (year: number, month: number, day: number, hour: number, minut
  * A date cell read raw: a date the sheet recognised arrives as a serial number, one it didn't
  * (typed as text in another format) as text. `null` for an empty cell or anything else.
  */
-// eslint-disable-next-line sonarjs/function-return-type -- `null` is the "no date" case, not another type
 const readDate = (value: string): WallClock | null => {
   if (value === '') {
     return null
@@ -91,9 +90,12 @@ const readDate = (value: string): WallClock | null => {
     return { at, hasTime: at.getUTCHours() !== 0 || at.getUTCMinutes() !== 0 }
   }
 
+  // Both anchored with bounded repeats, and only ever run on a single cell
+  // eslint-disable-next-line security/detect-unsafe-regex
   const slovak = /^(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})(?:,?\s*(?:o\s*)?(\d{1,2}):(\d{2}))?$/.exec(
     value,
   )
+  // eslint-disable-next-line security/detect-unsafe-regex
   const iso = /^(\d{4})-(\d{1,2})-(\d{1,2})(?:[\sT](\d{1,2}):(\d{2}))?$/.exec(value)
   const [year, month, day, hour, minute] = slovak
     ? [slovak[3], slovak[2], slovak[1], slovak[4], slovak[5]]
@@ -200,6 +202,7 @@ const parseEvents = (rows: Rows) => {
     }
 
     const warn = (message: string) => warnings.push(`Row ${rowNumber}: ${message}`)
+    // eslint-disable-next-line security/detect-object-injection -- `column` is one of our own keys
     const read = (column: keyof typeof columns) => cell(row, columns[column])
 
     const title = read('title')

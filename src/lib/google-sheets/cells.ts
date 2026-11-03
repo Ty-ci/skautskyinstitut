@@ -5,14 +5,13 @@
 
 /** Lower-cases, drops diacritics and spaces, for matching headers ("Start Date" → "startdate") */
 export const normalize = (value: string) =>
-  // eslint-disable-next-line sonarjs/null-dereference -- false positive, `value` is a string
   value
     .normalize('NFD')
     .replaceAll(/\p{Diacritic}/gu, '')
     .toLowerCase()
     .replaceAll(/[\s_-]+/g, '')
 
-export const cell = (row: string[] | undefined, index: number) => (row?.[index] ?? '').trim()
+export const cell = (row: string[] | undefined, index: number) => (row?.at(index) ?? '').trim()
 
 /**
  * Locates a column by matching its header, falling back to the position the column has today.

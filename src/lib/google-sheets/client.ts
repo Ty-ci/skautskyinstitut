@@ -22,7 +22,6 @@ export type Rows = string[][]
  */
 const cleanEnv = (value: string | undefined) => {
   const trimmed = (value ?? '').trim()
-  // eslint-disable-next-line sonarjs/null-dereference -- false positive, `trimmed` is a string
   const first = trimmed.charAt(0)
   const isQuoted =
     trimmed.length >= 2 && (first === '"' || first === "'") && trimmed.endsWith(first)

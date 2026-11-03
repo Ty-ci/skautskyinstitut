@@ -20,7 +20,7 @@ const MobileMenu = () => {
   return (
     <div className="relative flex min-h-14 items-center">
       <div className="mr-[30px] flex items-center">
-        <SiteLogo className="block h-auto max-h-[52px] w-auto" />
+        <SiteLogo className="block size-auto max-h-[52px]" />
       </div>
       <div className="flex flex-1 items-center justify-end">
         <button
