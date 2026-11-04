@@ -4,7 +4,7 @@ import { externalLinks, siLogoUrl } from '@/utils/externalLinks'
 
 export const menuItems = [
   // Points to this site, which replaces the original link to the Facebook events
-  // { label: 'Podujatia ↗', href: '/' },
+  // { label: 'Podujatia ↗', href: '/podujatia' }, // see `ROUTES.events`
   { label: 'Podcasty SI ↗', href: externalLinks.spotify },
 ]
 

@@ -27,7 +27,7 @@ const getServerHash = () => ''
 
 /**
  * The grid of event tiles, and the dialog of the one that's open. The open event is the URL hash
- * (see `eventPath`), so it can be linked to and the back button closes it.
+ * (see `ROUTES.event`), so it can be linked to and the back button closes it.
  */
 const EventsBoard = ({ events, statuses, sheetUrl }: Props) => {
   const hash = useSyncExternalStore(subscribeToHash, getHash, getServerHash)

@@ -1,7 +1,7 @@
 import type { CollectionConfig, DateFieldValidation, FieldHook } from 'payload'
 
 import type { Event } from '@/payload-types'
-import { eventPath } from '@/utils/paths'
+import { ROUTES } from '@/utils/routes'
 import { slugify } from '@/utils/slugify'
 
 import { revalidateEventAfterChange, revalidateEventAfterDelete } from './revalidateEvent'
@@ -33,7 +33,7 @@ export const Events: CollectionConfig = {
     defaultColumns: ['title', 'start', 'place', '_status'],
     preview: (doc) =>
       typeof doc.slug === 'string'
-        ? `${process.env.NEXT_PUBLIC_SERVER_URL ?? ''}${eventPath(doc.slug)}`
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL ?? ''}${ROUTES.event(doc.slug)}`
         : null,
   },
   defaultSort: '-start',

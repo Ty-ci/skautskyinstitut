@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache'
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, PayloadRequest } from 'payload'
 
 import type { Event } from '@/payload-types'
+import { ROUTES } from '@/utils/routes'
 
 const revalidate = (paths: Set<string>, req: PayloadRequest) => {
   for (const path of paths) {
@@ -33,7 +34,7 @@ export const revalidateEventAfterChange: CollectionAfterChangeHook<Event> = ({
   const paths = new Set<string>()
 
   if (doc._status === 'published' && doc.slug) {
-    paths.add('/')
+    paths.add(ROUTES.events)
   }
 
   // Unpublished, or published under a different slug before. On create, previousDoc is `{}`.
@@ -42,7 +43,7 @@ export const revalidateEventAfterChange: CollectionAfterChangeHook<Event> = ({
     previousDoc.slug &&
     (doc._status !== 'published' || previousDoc.slug !== doc.slug)
   ) {
-    paths.add('/')
+    paths.add(ROUTES.events)
   }
 
   revalidate(paths, req)
@@ -59,7 +60,7 @@ export const revalidateEventAfterDelete: CollectionAfterDeleteHook<Event> = ({
     return doc
   }
 
-  revalidate(new Set(['/']), req)
+  revalidate(new Set([ROUTES.events]), req)
 
   return doc
 }

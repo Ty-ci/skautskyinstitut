@@ -1,6 +1,6 @@
 import type { SiteEvent } from '@/services/events'
 import { googleCalendarLink } from '@/utils/googleCalendarLink'
-import { eventPath } from '@/utils/paths'
+import { ROUTES } from '@/utils/routes'
 
 interface Props {
   event: SiteEvent
@@ -36,7 +36,7 @@ const InstagramIcon = () => (
 
 /** Calendar and social links of an event */
 const EventActions = ({ event, isPast }: Props) => {
-  const eventUrl = `${process.env.NEXT_PUBLIC_SERVER_URL ?? ''}${eventPath(event.slug)}`
+  const eventUrl = `${process.env.NEXT_PUBLIC_SERVER_URL ?? ''}${ROUTES.event(event.slug)}`
   const socialLinks = [
     event.instagramLink
       ? { label: 'Instagram', href: event.instagramLink, icon: <InstagramIcon /> }

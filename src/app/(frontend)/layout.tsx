@@ -1,25 +1,7 @@
-import './globals.css'
-
 import type { Metadata } from 'next'
-import { Georama } from 'next/font/google'
-import localFont from 'next/font/local'
 import type { ReactNode } from 'react'
 
-import SiteHeader from '@/components/header/SiteHeader'
-import SiteFooter from '@/components/SiteFooter'
-
-const georama = Georama({
-  subsets: ['latin', 'latin-ext'],
-  variable: '--font-georama',
-})
-
-// Slovenský skauting brand font, used for headings on the main site. Self-hosted: the main site
-// serves it without CORS headers, so browsers refuse to load it from there on another domain.
-const skautBold = localFont({
-  src: './fonts/skaut-bold-webfont.otf',
-  variable: '--font-skaut-bold',
-  display: 'swap',
-})
+import SiteDocument from './SiteDocument'
 
 export const metadata: Metadata = {
   title: 'Skautský inštitút',
@@ -27,16 +9,7 @@ export const metadata: Metadata = {
 }
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
-  return (
-    <html lang="sk" className={`${georama.variable} ${skautBold.variable}`}>
-      <body className="flex min-h-screen flex-col">
-        <SiteHeader />
-        {/* A column, so a page's last section can stretch down to the footer (`grow`) */}
-        <main className="flex grow flex-col">{children}</main>
-        <SiteFooter />
-      </body>
-    </html>
-  )
+  return <SiteDocument>{children}</SiteDocument>
 }
 
 export default RootLayout

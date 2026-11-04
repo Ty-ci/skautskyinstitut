@@ -1,14 +1,8 @@
-import Link from 'next/link'
+import NotFoundSection from '@/components/NotFoundSection'
 
+/** For `notFound()` called within the public site. Unmatched URLs go to `global-not-found`. */
 const NotFound = () => {
-  return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 px-4 py-8">
-      <h1 className="text-3xl font-bold">Stránka sa nenašla</h1>
-      <Link href="/" className="hover:underline">
-        ← Späť na podujatia
-      </Link>
-    </div>
-  )
+  return <NotFoundSection />
 }
 
 export default NotFound

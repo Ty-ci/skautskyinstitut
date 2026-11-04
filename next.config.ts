@@ -7,6 +7,10 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Unmatched URLs get the site's 404 page (see `src/app/global-not-found.tsx`)
+    globalNotFound: true,
+  },
   images: {
     localPatterns: [
       {

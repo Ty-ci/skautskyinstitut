@@ -5,10 +5,10 @@ import { getEvents } from '@/services/events'
 // regenerated at most every 5 minutes. That also moves events that have ended among the past ones.
 export const revalidate = 300
 
-const HomePage = async () => {
+const EventsPage = async () => {
   const events = await getEvents()
 
   return <EventsFeedSection events={events} />
 }
 
-export default HomePage
+export default EventsPage
