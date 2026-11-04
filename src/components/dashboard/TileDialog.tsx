@@ -2,7 +2,7 @@
 
 import { type SubmitEvent, useEffect, useId, useRef, useState, useTransition } from 'react'
 
-import { createTile, deleteTile, saveTile } from '@/app/(frontend)/dashboard/actions'
+import { createTile, deleteTile, saveTile } from '@/app/(frontend)/(site)/dashboard/actions'
 import {
   dangerButton,
   fieldLabel,

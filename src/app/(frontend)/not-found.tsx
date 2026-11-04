@@ -1,8 +1,17 @@
 import NotFoundSection from '@/components/NotFoundSection'
 
-/** For `notFound()` called within the public site. Unmatched URLs go to `global-not-found`. */
+import { SitePage } from './SiteDocument'
+
+/**
+ * For `notFound()` called within the public site. Unmatched URLs go to `global-not-found`. Sits
+ * above the `(site)` layout, so it brings the header along itself.
+ */
 const NotFound = () => {
-  return <NotFoundSection />
+  return (
+    <SitePage>
+      <NotFoundSection />
+    </SitePage>
+  )
 }
 
 export default NotFound

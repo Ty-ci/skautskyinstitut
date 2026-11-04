@@ -20,17 +20,29 @@ const skautBold = localFont({
   display: 'swap',
 })
 
+/** A column, so a page's last section can stretch down to the footer (`grow`) */
+export const SiteMain = ({ children }: { children: ReactNode }) => (
+  <main className="flex grow flex-col">{children}</main>
+)
+
+/** A page of the public site: the header, and the page below it */
+export const SitePage = ({ children }: { children: ReactNode }) => (
+  <>
+    <SiteHeader />
+    <SiteMain>{children}</SiteMain>
+  </>
+)
+
 /**
- * The whole document of the public site. Shared by the frontend layout and `global-not-found`,
+ * The whole document of the public site, without the header: the dashboard's tools go without it
+ * (see the `(site)` and `(apps)` layouts). Shared by the frontend layout and `global-not-found`,
  * which renders without any layout.
  */
 const SiteDocument = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="sk" className={`${georama.variable} ${skautBold.variable}`}>
       <body className="flex min-h-screen flex-col">
-        <SiteHeader />
-        {/* A column, so a page's last section can stretch down to the footer (`grow`) */}
-        <main className="flex grow flex-col">{children}</main>
+        {children}
         <SiteFooter />
       </body>
     </html>

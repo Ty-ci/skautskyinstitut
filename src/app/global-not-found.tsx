@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import NotFoundSection from '@/components/NotFoundSection'
 
-import SiteDocument from './(frontend)/SiteDocument'
+import SiteDocument, { SitePage } from './(frontend)/SiteDocument'
 
 export const metadata: Metadata = {
   title: 'Stránka nebola nájdená | Skautský inštitút',
@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 const GlobalNotFound = () => {
   return (
     <SiteDocument>
-      <NotFoundSection />
+      <SitePage>
+        <NotFoundSection />
+      </SitePage>
     </SiteDocument>
   )
 }

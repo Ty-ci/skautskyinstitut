@@ -1,8 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useTransition } from 'react'
 
-import { signOut } from '@/app/(frontend)/dashboard/actions'
+import { signOut } from '@/app/(frontend)/(site)/dashboard/actions'
 import PasswordForm from '@/components/dashboard/PasswordForm'
 import { primaryButton, secondaryButton } from '@/components/dashboard/styles'
 import Tile from '@/components/dashboard/Tile'
@@ -10,6 +11,7 @@ import TileDialog, { type TileDialogTarget } from '@/components/dashboard/TileDi
 import TileIcon from '@/components/dashboard/TileIcon'
 import SheetLink from '@/components/SheetLink'
 import { type DashboardTile, groupBySection } from '@/utils/dashboardTile'
+import { ROUTES } from '@/utils/routes'
 
 interface Props {
   tiles: DashboardTile[]
@@ -131,6 +133,24 @@ const DashboardBoard = ({ tiles, sheetUrl, access }: Props) => {
           </ul>
         </section>
       ))}
+
+      {/* Built into the site, unlike the tiles from the sheet */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-2xl">Nástroje</h2>
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-3">
+          <li>
+            <Link
+              href={ROUTES.guestEmail}
+              className="group flex size-full flex-col items-center gap-2 rounded-2xl border-2 border-black/6 bg-white px-2 pt-4 pb-3 text-center shadow-[0_6px_12px_-6px_rgba(0,0,0,0.18)] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              <TileIcon name="mail-plus" className="size-6 shrink-0" />
+              <span className="text-sm/tight font-semibold decoration-brand-dark decoration-2 underline-offset-2 group-hover:underline">
+                E-mail hosťom
+              </span>
+            </Link>
+          </li>
+        </ul>
+      </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3 pt-4">
         <SheetLink href={sheetUrl}>Zdrojová tabuľka</SheetLink>

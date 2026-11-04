@@ -2,7 +2,7 @@
 
 import { type SubmitEvent, useId, useState, useTransition } from 'react'
 
-import { unlock } from '@/app/(frontend)/dashboard/actions'
+import { unlock } from '@/app/(frontend)/(site)/dashboard/actions'
 import { fieldLabel, primaryButton, textInput } from '@/components/dashboard/styles'
 
 interface Props {
