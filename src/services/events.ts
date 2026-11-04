@@ -2,11 +2,12 @@ import { cache } from 'react'
 
 import { cell, columnFinder, normalize, serialToDate } from '@/lib/google-sheets/cells'
 import { getValues, type Rows } from '@/lib/google-sheets/client'
+import { HEADER_ROW, SPREADSHEET_ID, spreadsheetUrl } from '@/lib/google-sheets/spreadsheet'
 import { slugify } from '@/utils/slugify'
 
 /*
  * Events are read from a Google spreadsheet for now, instead of the Payload `events` collection.
- * The first tab, rows 1–2 are instructions for editors, row 3 is the header:
+ * Tab `events`, rows 1–2 are instructions for editors, row 3 is the header:
  *
  *   title | startDate | endDate | place | coverUrl | description | slug | facebookLink | instagramLink | calendarLink
  *
@@ -15,14 +16,11 @@ import { slugify } from '@/utils/slugify'
  * all-day event. Rows the site has to skip or fix up are logged as warnings (Netlify function logs).
  */
 
-const SPREADSHEET_ID =
-  process.env.GOOGLE_EVENTS_SHEET_ID || '1pC5KEsjZ2GkfhFhf1DB9_nPrCVuG3YBIXb5PA5Kt5do'
-// No tab name: the first tab is read, whatever it is called
-const RANGE = 'A1:Z500'
-const HEADER_ROW = 3
+const TAB = 'events'
+const RANGE = `${TAB}!A1:Z500`
 
 /** Opens the sheet, for people who edit it – it still needs a Google account it's shared with */
-export const eventsSheetUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`
+export const eventsSheetUrl = spreadsheetUrl()
 
 const TIME_ZONE = 'Europe/Bratislava'
 const DAY_MS = 86_400_000

@@ -27,6 +27,20 @@ export const columnFinder = (headerRow: string[]) => {
   }
 }
 
+/** A checkbox or a hand-typed yes */
+export const isTruthyCell = (value: string) =>
+  ['1', 'true', 'ano', 'yes', 'x', '✓'].includes(normalize(value))
+
+/** 0 → A, 25 → Z, 26 → AA */
+export const columnLetter = (index: number) => {
+  let letters = ''
+  for (let rest = index + 1; rest > 0; rest = Math.floor((rest - 1) / 26)) {
+    letters = String.fromCharCode(65 + ((rest - 1) % 26)) + letters
+  }
+
+  return letters
+}
+
 /**
  * A date cell read raw (days since 30. 12. 1899, the fraction being the time of day) → a Date whose
  * *UTC* fields are the wall-clock time the sheet shows.
