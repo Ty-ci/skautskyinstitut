@@ -17,28 +17,15 @@ const nextConfig: NextConfig = {
         pathname: '/api/media/file/**',
       },
     ],
-    remotePatterns: [
-      // TODO: Temporary – the homepage and mock events reuse images from the current WordPress site
+    remotePatterns:     
+    [
       {
-        protocol: 'https',
-        hostname: 'www.skautskyinstitut.sk',
-        pathname: '/wp-content/uploads/**',
-      },
-      // Google Drive – direct image URLs of publicly shared files
-      {
-        protocol: 'https',
-        hostname: 'drive.google.com',
-        pathname: '/uc',
+        protocol: 'http',
+        hostname: '**',
       },
       {
         protocol: 'https',
-        hostname: 'drive.google.com',
-        pathname: '/thumbnail',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        pathname: '/d/**',
+        hostname: '**',
       },
     ],
   },
