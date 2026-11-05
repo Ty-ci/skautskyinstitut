@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useTransition } from 'react'
 
-import { signOut } from '@/app/(frontend)/(site)/dashboard/actions'
+import { signOut } from '@/app/(frontend)/(dashboard)/dashboard/actions'
 import PasswordForm from '@/components/dashboard/PasswordForm'
 import { primaryButton, secondaryButton } from '@/components/dashboard/styles'
 import Tile from '@/components/dashboard/Tile'

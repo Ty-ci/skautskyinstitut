@@ -8,11 +8,14 @@ export const menuItems = [
   { label: 'Podcasty SI ↗', href: externalLinks.spotify },
 ]
 
+export const LogoImage = ({ className }: { className: string }) => (
+  <img src={siLogoUrl} alt="" width={150} height={150} className={className} />
+)
+
 /** The logo leads back to the main site */
 export const SiteLogo = ({ className }: { className: string }) => (
   <a href={externalLinks.skautskyInstitut} aria-label="Skautský inštitút – hlavná stránka">
-    {}
-    <img src={siLogoUrl} alt="" width={150} height={150} className={className} />
+    <LogoImage className={className} />
   </a>
 )
 

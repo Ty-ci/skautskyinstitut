@@ -34,9 +34,9 @@ export const SitePage = ({ children }: { children: ReactNode }) => (
 )
 
 /**
- * The whole document of the public site, without the header: the dashboard's tools go without it
- * (see the `(site)` and `(apps)` layouts). Shared by the frontend layout and `global-not-found`,
- * which renders without any layout.
+ * The whole document of the public site, without the header: the dashboard has its own (see the
+ * `(site)` and `(dashboard)` layouts). Shared by the frontend layout and `global-not-found`, which
+ * renders without any layout.
  */
 const SiteDocument = ({ children }: { children: ReactNode }) => {
   return (
