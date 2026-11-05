@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
-import DashboardLocked, { DashboardHeading } from '@/components/dashboard/DashboardLocked'
+import DashboardLocked, {
+  DashboardBackLink,
+  DashboardHeading,
+} from '@/components/dashboard/DashboardLocked'
 import GuestEmailGenerator from '@/components/dashboard/guest-email/GuestEmailGenerator'
 import { getAccessLevel } from '@/lib/access/session'
 import { getEvents, getEventStatus } from '@/services/events'
 import type { GuestEmailEvent } from '@/utils/guestEmail'
-import { ROUTES } from '@/utils/routes'
 
 export const metadata: Metadata = {
   title: 'E-mail hosťom | Skautský inštitút',
@@ -23,15 +24,6 @@ export const dynamic = 'force-dynamic'
  */
 
 const TITLE = 'E-mail hosťom'
-
-const BackLink = () => (
-  <Link
-    href={ROUTES.dashboard}
-    className="text-sm font-semibold underline decoration-brand-dark decoration-2 underline-offset-4 hover:decoration-black"
-  >
-    ← Späť na dashboard
-  </Link>
-)
 
 const GuestEmailPage = async () => {
   if ((await getAccessLevel()) === 'none') {
@@ -64,7 +56,7 @@ const GuestEmailPage = async () => {
       <section className="grow bg-surface px-4 py-8 max-[767px]:pt-10">
         <div className="mx-auto flex w-full max-w-4xl flex-col gap-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <BackLink />
+            <DashboardBackLink />
             <p className="text-sm text-muted">
               Vyber podujatie, uprav text priamo v e-maile a skopíruj ho do Gmailu.
             </p>

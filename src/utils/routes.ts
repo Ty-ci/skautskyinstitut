@@ -7,4 +7,6 @@ export const ROUTES = {
   dashboard: '/dashboard',
   /** The dashboard's tool writing the email to an event's guests */
   guestEmail: '/dashboard/email-hostom',
+  /** The dashboard's tool listing all events with their internal data */
+  eventsOverview: '/dashboard/podujatia',
 }

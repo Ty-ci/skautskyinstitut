@@ -1,4 +1,17 @@
+import Link from 'next/link'
+
 import PasswordForm from '@/components/dashboard/PasswordForm'
+import { ROUTES } from '@/utils/routes'
+
+/** The way back from the dashboard's tools */
+export const DashboardBackLink = () => (
+  <Link
+    href={ROUTES.dashboard}
+    className="self-start text-sm font-semibold underline decoration-brand-dark decoration-2 underline-offset-4 hover:decoration-black"
+  >
+    ← Späť na dashboard
+  </Link>
+)
 
 /** The big heading of the dashboard's pages */
 export const DashboardHeading = ({ title }: { title: string }) => (

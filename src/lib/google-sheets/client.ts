@@ -157,17 +157,21 @@ export const getValues = async (spreadsheetId: string, range: string): Promise<R
 /**
  * Writes several ranges in one request. Values are stored as given (`RAW`), never parsed: text
  * typed on the website starting with `=` must not become a formula in the sheet.
+ *
+ * `USER_ENTERED` makes Sheets parse the values as if typed in, which is how a date becomes a real
+ * date cell. Only for values the site put together itself, never for text as it was typed.
  */
 export const updateValues = async (
   spreadsheetId: string,
   data: { range: string; values: CellValue[][] }[],
+  valueInputOption: 'RAW' | 'USER_ENTERED' = 'RAW',
 ) => {
   await callSheets(
     WRITE_SCOPE,
     `${SHEETS_API}/${encodeURIComponent(spreadsheetId)}/values:batchUpdate`,
     {
       method: 'POST',
-      body: { valueInputOption: 'RAW', data },
+      body: { valueInputOption, data },
     },
   )
 }

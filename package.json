@@ -32,6 +32,7 @@
     "next": "16.3.3",
     "payload": "3.90.2",
     "react": "19.2.6",
+    "react-aria-components": "1.22.1",
     "react-dom": "19.2.6",
     "sharp": "0.35.4"
   },

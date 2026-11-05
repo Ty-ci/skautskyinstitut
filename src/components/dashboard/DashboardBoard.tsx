@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState, useTransition } from 'react'
 
 import { signOut } from '@/app/(frontend)/(dashboard)/dashboard/actions'
-import PasswordForm from '@/components/dashboard/PasswordForm'
+import EditUnlock from '@/components/dashboard/EditUnlock'
 import { primaryButton, secondaryButton } from '@/components/dashboard/styles'
 import Tile from '@/components/dashboard/Tile'
 import TileDialog, { type TileDialogTarget } from '@/components/dashboard/TileDialog'
@@ -20,39 +20,11 @@ interface Props {
   access: 'view' | 'edit'
 }
 
-/** Read-only until the edit password is entered: a note, and a button opening the form in place */
-const EditUnlock = () => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <div className="flex flex-col items-end gap-3">
-      <button
-        type="button"
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen((open) => !open)}
-        className={secondaryButton}
-      >
-        <TileIcon name={isOpen ? 'x' : 'lock-keyhole'} className="size-4" />
-        {isOpen ? 'Zavrieť' : 'Povoliť úpravy'}
-      </button>
-      {isOpen ? (
-        <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-[0_12px_18px_-6px_rgba(0,0,0,0.2)]">
-          <p className="text-sm">
-            Upravovať dlaždice môžeš po zadaní hesla na úpravy. Tento prehliadač si ho zapamätá.
-          </p>
-          <PasswordForm
-            level="edit"
-            submitLabel="Povoliť úpravy"
-            className="mt-4"
-            // Opened by the button just now, for typing the password
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-        </div>
-      ) : null}
-    </div>
-  )
-}
+/** Built into the site, unlike the tiles from the sheet */
+const tools = [
+  { label: 'E-mail hosťom', href: ROUTES.guestEmail, icon: 'mail-plus' },
+  { label: 'Prehľad podujatí', href: ROUTES.eventsOverview, icon: 'calendar-days' },
+]
 
 /** The dashboard's tiles by section – and, with the edit password, the way to change them */
 const DashboardBoard = ({ tiles, sheetUrl, access }: Props) => {
@@ -91,7 +63,9 @@ const DashboardBoard = ({ tiles, sheetUrl, access }: Props) => {
             </button>
           </>
         ) : (
-          <EditUnlock />
+          <EditUnlock>
+            Upravovať dlaždice môžeš po zadaní hesla na úpravy. Tento prehliadač si ho zapamätá.
+          </EditUnlock>
         )}
       </div>
 
@@ -134,21 +108,22 @@ const DashboardBoard = ({ tiles, sheetUrl, access }: Props) => {
         </section>
       ))}
 
-      {/* Built into the site, unlike the tiles from the sheet */}
       <section className="flex flex-col gap-3">
         <h2 className="text-2xl">Nástroje</h2>
         <ul className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-3">
-          <li>
-            <Link
-              href={ROUTES.guestEmail}
-              className="group flex size-full flex-col items-center gap-2 rounded-2xl border-2 border-black/6 bg-white px-2 pt-4 pb-3 text-center shadow-[0_6px_12px_-6px_rgba(0,0,0,0.18)] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              <TileIcon name="mail-plus" className="size-6 shrink-0" />
-              <span className="text-sm/tight font-semibold decoration-brand-dark decoration-2 underline-offset-2 group-hover:underline">
-                E-mail hosťom
-              </span>
-            </Link>
-          </li>
+          {tools.map((tool) => (
+            <li key={tool.href}>
+              <Link
+                href={tool.href}
+                className="group flex size-full flex-col items-center gap-2 rounded-2xl border-2 border-black/6 bg-white px-2 pt-4 pb-3 text-center shadow-[0_6px_12px_-6px_rgba(0,0,0,0.18)] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                <TileIcon name={tool.icon} className="size-6 shrink-0" />
+                <span className="text-sm/tight font-semibold decoration-brand-dark decoration-2 underline-offset-2 group-hover:underline">
+                  {tool.label}
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
 
