@@ -22,10 +22,10 @@ import {
   TableHeader,
 } from 'react-aria-components'
 
+import EditUnlock from '@/components/dashboard/EditUnlock'
 import EventRecordDialog, {
   type EventDialogTarget,
 } from '@/components/dashboard/events/EventRecordDialog'
-import EditUnlock from '@/components/dashboard/EditUnlock'
 import {
   fieldLabel,
   primaryButton,
@@ -83,8 +83,8 @@ interface FilterSelectProps {
 
 const FilterSelect = ({ label, allLabel, value, options, onChange }: FilterSelectProps) => (
   <Select
-    selectedKey={value}
-    onSelectionChange={(key) => onChange(String(key))}
+    value={value}
+    onChange={(key) => onChange(String(key))}
     // Nothing to choose from yet, when the column is empty in the whole sheet
     isDisabled={options.length === 0}
     className="min-w-36 flex-1 sm:flex-none"

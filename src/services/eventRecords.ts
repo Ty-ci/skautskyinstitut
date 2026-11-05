@@ -13,8 +13,8 @@ import {
   dateFieldNames,
   emptyEventFields,
   type EventFieldName,
-  type EventFields,
   eventFieldNames,
+  type EventFields,
   type EventRecord,
 } from '@/utils/eventRecord'
 

@@ -32,8 +32,8 @@ import { readUrl } from '@/lib/google-sheets/cells'
 import {
   DATE_FORMAT_HINT,
   emptyEventFields,
-  type EventFieldName,
   eventFieldLabels,
+  type EventFieldName,
   eventFieldNames,
   type EventFields,
   type EventRecord,
@@ -95,7 +95,7 @@ const EventDetails = ({
         {value}
       </Link>
     ) : (
-      value
+      <span>{value}</span>
     )
   }
 

@@ -195,12 +195,12 @@ const parseEvents = (rows: Rows) => {
 
     const url = (column: keyof typeof columns) => {
       const value = read(column)
-      const parsed = readUrl(value)
-      if (value && !parsed) {
+      const address = readUrl(value)
+      if (value && !address) {
         warn(`${column} "${value}" is not a web address, ignored.`)
       }
 
-      return parsed ?? undefined
+      return address ?? undefined
     }
 
     // A timed event without an end stays upcoming until the end of its day

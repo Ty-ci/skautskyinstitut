@@ -76,13 +76,10 @@ export const DATE_FORMAT_HINT = '12. 11. 2026 alebo 12. 11. 2026 18:00'
 /** The sheet's dates only count between these years, see `readDate` */
 const isSupportedYear = (year: number) => year >= 2000 && year <= 2099
 
-/**
- * Checks and tidies up fields that arrived from the browser – an error message (in Slovak) or the
- * fields, with dates in one format.
- */
-export const parseEventFields = (
-  input: unknown,
-): { ok: true; fields: EventFields } | { ok: false; error: string } => {
+type ParsedEventFields = { ok: true; fields: EventFields } | { ok: false; error: string }
+
+/** Every field as trimmed text of an allowed length, and a title among them */
+const readTexts = (input: unknown): ParsedEventFields => {
   if (typeof input !== 'object' || input === null) {
     return { ok: false, error: 'Neplatné údaje.' }
   }
@@ -111,33 +108,59 @@ export const parseEventFields = (
     return { ok: false, error: 'Názov je povinný.' }
   }
 
+  return { ok: true, fields }
+}
+
+/** The start and the optional end, checked and rewritten in one format */
+const readDates = (fields: EventFields): ParsedEventFields => {
   const start = readDate(fields.startDate)
   if (!start || !isSupportedYear(start.at.getUTCFullYear())) {
     return { ok: false, error: `Začiatok je povinný, v tvare ${DATE_FORMAT_HINT}.` }
   }
-  fields.startDate = formatWallClock(start)
 
-  if (fields.endDate !== '') {
-    const end = readDate(fields.endDate)
-    if (!end || !isSupportedYear(end.at.getUTCFullYear())) {
-      return { ok: false, error: `Koniec má byť v tvare ${DATE_FORMAT_HINT}, alebo prázdny.` }
-    }
-    if (end.at < start.at) {
-      return { ok: false, error: 'Koniec nemôže byť skôr ako začiatok.' }
-    }
-    fields.endDate = formatWallClock(end)
+  const startDate = formatWallClock(start)
+  if (fields.endDate === '') {
+    return { ok: true, fields: { ...fields, startDate } }
   }
 
-  for (const name of linkFieldNames) {
+  const end = readDate(fields.endDate)
+  if (!end || !isSupportedYear(end.at.getUTCFullYear())) {
+    return { ok: false, error: `Koniec má byť v tvare ${DATE_FORMAT_HINT}, alebo prázdny.` }
+  }
+  if (end.at < start.at) {
+    return { ok: false, error: 'Koniec nemôže byť skôr ako začiatok.' }
+  }
+
+  return { ok: true, fields: { ...fields, startDate, endDate: formatWallClock(end) } }
+}
+
+/**
+ * Checks and tidies up fields that arrived from the browser – an error message (in Slovak) or the
+ * fields, with dates in one format.
+ */
+export const parseEventFields = (input: unknown): ParsedEventFields => {
+  const texts = readTexts(input)
+  if (!texts.ok) {
+    return texts
+  }
+
+  const dated = readDates(texts.fields)
+  if (!dated.ok) {
+    return dated
+  }
+
+  const badLink = linkFieldNames.find((name) => {
     // eslint-disable-next-line security/detect-object-injection
-    if (fields[name] !== '' && !readUrl(fields[name])) {
-      return {
+    const value = dated.fields[name]
+
+    return value !== '' && !readUrl(value)
+  })
+
+  return badLink
+    ? {
         ok: false,
         // eslint-disable-next-line security/detect-object-injection
-        error: `${eventFieldLabels[name]}: odkaz musí začínať na https:// (alebo ostať prázdny).`,
+        error: `${eventFieldLabels[badLink]}: odkaz musí začínať na https:// (alebo ostať prázdny).`,
       }
-    }
-  }
-
-  return { ok: true, fields }
+    : dated
 }
