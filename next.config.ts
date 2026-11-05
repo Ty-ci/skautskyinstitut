@@ -17,15 +17,12 @@ const nextConfig: NextConfig = {
         pathname: '/api/media/file/**',
       },
     ],
-    remotePatterns:     
-    [
-      {
-        protocol: 'http',
-        hostname: '**',
-      },
+    // TODO: Temporary – the homepage and mock events reuse images from the current WordPress site
+    remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'www.skautskyinstitut.sk',
+        pathname: '/wp-content/uploads/**',
       },
     ],
   },

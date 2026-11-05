@@ -160,6 +160,27 @@ const readUrl = (value: string) => {
   return /^www\.\S+$/i.test(value) ? `https://${value}` : null
 }
 
+/**
+ * Drive share links (`/open?id=…`, `/file/d/…/view`) lead to Drive's viewer page, which can't be
+ * the source of an image – so they're swapped for the image itself. The file has to be shared with
+ * "anyone with the link". Any other address is kept as it is.
+ */
+const toImageUrl = (value: string) => {
+  if (!URL.canParse(value)) {
+    return value
+  }
+
+  const { hostname, pathname, searchParams } = new URL(value)
+  if (hostname !== 'drive.google.com') {
+    return value
+  }
+
+  const id = /\/d\/([\w-]+)/.exec(pathname)?.[1] ?? searchParams.get('id')
+
+  // 1600 px is enough for the widest place a cover is shown, the dialog, on a high-density screen
+  return id ? `https://lh3.googleusercontent.com/d/${encodeURIComponent(id)}=w1600` : value
+}
+
 /** Where each column sits, by header – with today's positions as fallbacks */
 const locateColumns = (headerRow: string[]) => {
   const find = columnFinder(headerRow)
@@ -244,6 +265,7 @@ const parseEvents = (rows: Rows) => {
     // A timed event without an end stays upcoming until the end of its day
     const last = end ?? start
     const endsAt = last.hasTime && end ? last.at.getTime() : startOfNextDay(last.at)
+    const coverUrl = url('coverUrl')
 
     events.push({
       slug,
@@ -253,7 +275,7 @@ const parseEvents = (rows: Rows) => {
       hasTime: start.hasTime && (end?.hasTime ?? true),
       endsAt: new Date(toInstant(endsAt)).toISOString(),
       place: read('place') || undefined,
-      coverUrl: url('coverUrl'),
+      coverUrl: coverUrl && toImageUrl(coverUrl),
       description: read('description') || undefined,
       facebookLink: url('facebookLink'),
       instagramLink: url('instagramLink'),
