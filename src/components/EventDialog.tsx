@@ -70,12 +70,14 @@ const EventDialog = ({ event, status, onClose }: Props) => {
               </svg>
             </button>
           </div>
-          {event.coverUrl ? (
-            <div className="relative aspect-1920/1005">
-              {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
+          <div className="relative aspect-1920/1005">
+            {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
+            {event.coverUrl ? (
               <Image src={event.coverUrl} alt="" fill unoptimized className="object-cover" />
-            </div>
-          ) : null}
+            ) : (
+              <div className="absolute inset-0 bg-neutral-200" aria-hidden />
+            )}
+          </div>
           <div className="flex flex-col items-start gap-4 p-5 sm:p-6">
             <EventBadges event={event} status={status} />
             <header className="flex flex-col gap-1 pr-10">
