@@ -19,7 +19,7 @@ const EventCard = ({ event, status, onOpen }: Props) => (
     className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_12px_18px_-6px_rgba(0,0,0,0.2)] transition-all focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-black ${status === 'past' ? 'not-hover:opacity-60' : ''}`}
   >
     {event.coverUrl ? (
-      <div className="relative aspect-video shrink-0">
+      <div className="relative aspect-1920/1005 shrink-0">
         {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
         <Image
           src={event.coverUrl}
