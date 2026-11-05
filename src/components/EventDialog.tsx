@@ -71,7 +71,7 @@ const EventDialog = ({ event, status, onClose }: Props) => {
             </button>
           </div>
           {event.coverUrl ? (
-            <div className="relative aspect-video">
+            <div className="relative aspect-1920/1005">
               {/* Covers can live on any host (Facebook, Drive, …), so they skip the image optimizer */}
               <Image src={event.coverUrl} alt="" fill unoptimized className="object-cover" />
             </div>
